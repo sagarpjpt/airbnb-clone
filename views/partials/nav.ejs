@@ -1,0 +1,200 @@
+<header
+  class="bg-gradient-to-r from-red-500 to-red-600 text-white shadow-lg fixed w-full top-0 z-50 backdrop-blur-sm bg-opacity-95">
+  <div class="container mx-auto px-6 lg:px-8">
+    <nav class="flex justify-between items-center h-16 max-w-6xl mx-auto">
+      <!-- Logo -->
+      <a href="/" class="flex items-center space-x-2">
+        <svg class="h-8 w-8" viewBox="0 0 56 56" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M28.2338 36.7663C26.8879 34.6159 25.7129 32.4156 24.7338 30.2988C24.5254 29.8321 24.3379 29.3863 24.1296 28.9405C23.9421 29.3863 23.7546 29.8321 23.5463 30.2988C22.5671 32.4156 21.3921 34.6159 20.0463 36.7663C19.3963 37.8246 18.7046 38.8413 17.8879 39.7413C17.0087 40.7371 15.9921 41.5538 14.7546 42.0621C13.4754 42.5913 12.1087 42.7788 10.7421 42.5288C9.43957 42.2788 8.24541 41.6496 7.27707 40.7163C6.32707 39.7621 5.65874 38.5788 5.37541 37.2788C5.10041 35.9788 5.21791 34.6371 5.69541 33.3788C5.76666 33.1496 5.85624 32.9413 5.94582 32.7121C6.03541 32.4829 6.14332 32.2746 6.25124 32.0663L6.27957 32.0038C7.91291 28.8363 9.75874 25.7496 11.7379 22.7446C13.7379 19.7188 15.8671 16.7863 18.1504 13.9955C20.4546 11.1838 22.9129 8.52545 25.5546 6.08545C25.7421 5.91628 25.9296 5.7471 26.1379 5.5571C26.2879 5.42085 26.4379 5.30377 26.6046 5.16752C26.8338 5.01669 27.0838 4.88044 27.3546 4.78169C27.9421 4.5621 28.5713 4.5621 29.1379 4.78169C29.4296 4.88044 29.6796 5.01669 29.9088 5.16752C30.0754 5.28544 30.2254 5.42085 30.3754 5.5571C30.5838 5.72877 30.7713 5.91628 30.9588 6.08545C33.6004 8.52545 36.0379 11.1838 38.3629 13.9955C40.6463 16.7863 42.7754 19.7188 44.7754 22.7446C46.7546 25.7496 48.6004 28.8363 50.2338 32.0038L50.2621 32.0663C50.3701 32.2746 50.4779 32.4829 50.5675 32.7121C50.6571 32.9413 50.7467 33.1496 50.8179 33.3788C51.2954 34.6371 51.4129 35.9788 51.1379 37.2788C50.8546 38.5788 50.1863 39.7621 49.2363 40.7163C48.2679 41.6496 47.0738 42.2788 45.7713 42.5288C44.4046 42.7788 43.0379 42.5913 41.7588 42.0621C40.5213 41.5538 39.5046 40.7371 38.6254 39.7413C37.8088 38.8413 37.1171 37.8246 36.4671 36.7663C35.1213 34.6159 33.9463 32.4156 32.9671 30.2988C32.7588 29.8321 32.5713 29.3863 32.3838 28.9405C32.1754 29.3863 31.9879 29.8321 31.7796 30.2988C30.8004 32.4156 29.5796 34.6159 28.2338 36.7663ZM28.2338 25.0788C29.5588 25.0788 30.8213 24.5496 31.7379 23.6288C32.6546 22.708 33.1838 21.4455 33.1838 20.1205C33.1838 18.7955 32.6546 17.533 31.7379 16.6121C30.8213 15.6913 29.5588 15.1621 28.2338 15.1621C26.9088 15.1621 25.6463 15.6913 24.7296 16.6121C23.8129 17.533 23.2838 18.7955 23.2838 20.1205C23.2838 21.4455 23.8129 22.708 24.7296 23.6288C25.6463 24.5496 26.9088 25.0788 28.2338 25.0788Z" />
+        </svg>
+        <span class="text-xl font-bold">airbnb</span>
+      </a>
+
+      <!-- Mobile menu button -->
+      <button id="mobile-menu-button"
+        class="md:hidden flex items-center px-3 py-2 rounded-lg text-white bg-white/10 hover:bg-white/20 transition-all duration-200">
+        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-16 6h16" />
+        </svg>
+      </button>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center space-x-4">
+        <% if(isLoggedIn) { %>
+          <% if(user && user.userType==='guest' ) { %>
+            <a href="/homes"
+              class="<%= currentPage === 'Home' ? 'bg-white/20' : 'hover:bg-white/20' %> py-2 px-4 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg backdrop-blur-sm flex items-center space-x-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+              </svg>
+              <span>Home-list</span>
+            </a>
+            <a href="/favourites"
+              class="<%= currentPage === 'favourites' ? 'bg-white/20' : 'hover:bg-white/20' %> py-2 px-4 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg backdrop-blur-sm flex items-center space-x-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                  clip-rule="evenodd" />
+              </svg>
+              <span>Favourites</span>
+            </a>
+            <a href="/bookings"
+              class="<%= currentPage === 'bookings' ? 'bg-white/20' : 'hover:bg-white/20' %> py-2 px-4 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg backdrop-blur-sm flex items-center space-x-2">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                  clip-rule="evenodd" />
+              </svg>
+              <span>Bookings</span>
+            </a>
+            <% } else { %>
+              <a href="/host/host-home-list"
+                class="<%= currentPage === 'host-homes' ? 'bg-white/20' : 'hover:bg-white/20' %> py-2 px-4 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg backdrop-blur-sm flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+                </svg>
+                <span>Host Homes</span>
+              </a>
+              <a href="/host/add-home"
+                class="<%= currentPage === 'addHome' ? 'bg-white/20' : 'hover:bg-white/20' %> py-2 px-4 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg backdrop-blur-sm flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                    clip-rule="evenodd" />
+                </svg>
+                <span>Add Home</span>
+              </a>
+              <% } %>
+                <form action="/logout" method="POST" class="inline">
+                  <button type="submit"
+                    class="<%= currentPage === 'Logout' ? 'bg-white/20' : 'hover:bg-white/20' %> py-2 px-4 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg backdrop-blur-sm flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd"
+                        d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    <span>Logout</span>
+                  </button>
+                </form>
+                <% } else { %>
+                  <a href="/signup"
+                    class="<%= currentPage === 'Signup' ? 'bg-white/20' : 'hover:bg-white/20' %> py-2 px-4 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg backdrop-blur-sm flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path
+                        d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                    </svg>
+                    <span>Sign Up</span>
+                  </a>
+                  <a href="/login"
+                    class="<%= currentPage === 'Login' ? 'bg-white/20' : 'hover:bg-white/20' %> py-2 px-4 rounded-lg transition-all duration-200 hover:scale-105 hover:shadow-lg backdrop-blur-sm flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd"
+                        d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    <span>Login</span>
+                  </a>
+                  <% } %>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="md:hidden hidden pb-4">
+      <div class="flex flex-col space-y-2">
+        <% if(isLoggedIn) { %>
+          <% if(user && user.userType==='guest' ) { %>
+            <a href="/homes"
+              class="<%= currentPage === 'Home' ? 'bg-white/20' : '' %> flex items-center space-x-3 py-2 px-4 rounded-lg hover:bg-white/20 transition-all duration-200 hover:scale-105 hover:shadow-lg backdrop-blur-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path
+                  d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z" />
+              </svg>
+              <span>Home-list</span>
+            </a>
+            <a href="/favourites"
+              class="<%= currentPage === 'favourites' ? 'bg-red-600' : '' %> flex items-center space-x-3 py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                  clip-rule="evenodd" />
+              </svg>
+              <span>Favourites</span>
+            </a>
+            <a href="/bookings"
+              class="<%= currentPage === 'bookings' ? 'bg-red-600' : '' %> flex items-center space-x-3 py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd"
+                  d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                  clip-rule="evenodd" />
+              </svg>
+              <span>Bookings</span>
+            </a>
+            <% } else { %>
+              <a href="/host/host-home-list"
+                class="<%= currentPage === 'host-homes' ? 'bg-red-600' : '' %> flex items-center space-x-3 py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path
+                    d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
+                </svg>
+                <span>Host Homes</span>
+              </a>
+              <a href="/host/add-home"
+                class="<%= currentPage === 'addHome' ? 'bg-red-600' : '' %> flex items-center space-x-3 py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd"
+                    d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+                    clip-rule="evenodd" />
+                </svg>
+                <span>Add Home</span>
+              </a>
+              <% } %>
+                <form action="/logout" method="POST">
+                  <button type="submit"
+                    class="<%= currentPage === 'Logout' ? 'bg-red-600' : '' %> w-full flex items-center space-x-3 py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd"
+                        d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    <span>Logout</span>
+                  </button>
+                </form>
+                <% } else { %>
+                  <a href="/signup"
+                    class="<%= currentPage === 'Signup' ? 'bg-red-600' : '' %> flex items-center space-x-3 py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path
+                        d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
+                    </svg>
+                    <span>Sign Up</span>
+                  </a>
+                  <a href="/login"
+                    class="<%= currentPage === 'Login' ? 'bg-red-600' : '' %> flex items-center space-x-3 py-2 px-4 rounded-lg hover:bg-red-600 transition duration-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd"
+                        d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    <span>Login</span>
+                  </a>
+                  <% } %>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Add margin to main content to prevent overlap with fixed header -->
+<div class="pt-16"></div>
+
+<!-- Add JavaScript for mobile menu toggle -->
+<script>
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  mobileMenuButton.addEventListener('click', () => {
+    mobileMenu.classList.toggle('hidden');
+  });
+</script>

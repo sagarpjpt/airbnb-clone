@@ -1,0 +1,112 @@
+<%- include('../partials/head') %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </head>
+
+    <body>
+        <%- include('../partials/nav') %>
+            <main class="container mx-auto mt-6 sm:mt-10 max-w-6xl px-4 sm:px-6 lg:px-8">
+                <!-- Hero Section with Image -->
+                <div class="relative group mb-8 sm:mb-12">
+                    <div class="rounded-xl overflow-hidden shadow-xl">
+                        <img src="<%= home.photo %>" alt="<%= home.name %>"
+                            class="w-full h-[300px] sm:h-[400px] md:h-[500px] object-cover transition-transform duration-500 group-hover:scale-105">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+
+                        <!-- Overlay Content -->
+                        <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 text-white">
+                            <div
+                                class="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 sm:gap-0">
+                                <div>
+                                    <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-1 sm:mb-2">
+                                        <%= home.houseName %>
+                                    </h1>
+                                    <p class="text-base sm:text-lg md:text-xl opacity-90">
+                                        <%= home.location %>
+                                    </p>
+                                </div>
+                                <div class="flex items-center bg-black/30 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg">
+                                    <span class="text-yellow-400 text-xl sm:text-2xl">★</span>
+                                    <span class="ml-1.5 sm:ml-2 text-base sm:text-lg md:text-xl font-semibold">
+                                        <%= home.rating %>/5
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 px-4">
+                    <!-- Main Content -->
+                    <div class="lg:col-span-2 space-y-8">
+                        <!-- Price Card -->
+                        <div class="bg-white rounded-xl shadow-lg p-4 sm:p-6">
+                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                                <div>
+                                    <h3 class="text-base sm:text-lg text-gray-600">Price per night</h3>
+                                    <p class="text-2xl sm:text-3xl font-bold text-gray-900">Rs <%= home.price %>
+                                    </p>
+                                </div>
+                                <div class="flex flex-wrap gap-3 w-full sm:w-auto">
+                                    <%- include('../partials/favourite') %>
+                                        <a href="/rules/<%= home._id %>"
+                                            class="flex items-center justify-center gap-2 text-blue-600 hover:text-blue-700 transition-colors duration-200 bg-blue-50 hover:bg-blue-100 px-3 sm:px-4 py-2 rounded-md text-sm sm:text-base w-full sm:w-auto">
+                                            <i class="fas fa-download"></i>
+                                            <span>House Rules</span>
+                                        </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="bg-white rounded-xl shadow-lg p-6">
+                            <h2 class="text-2xl font-semibold mb-4">About this place</h2>
+                            <p class="text-gray-600 leading-relaxed">
+                                <%= home.description %>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Features Section -->
+                    <div class="bg-white rounded-xl shadow-lg p-6 h-fit">
+                        <h2 class="text-2xl font-semibold mb-6">What this place offers</h2>
+                        <ul class="space-y-4">
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <i class="fas fa-wifi text-green-500"></i>
+                                <span>High-speed WiFi</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <i class="fas fa-parking text-green-500"></i>
+                                <span>Free parking on premises</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <i class="fas fa-temperature-low text-green-500"></i>
+                                <span>Air conditioning</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <i class="fas fa-tv text-green-500"></i>
+                                <span>55" 4K TV</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <i class="fas fa-utensils text-green-500"></i>
+                                <span>Fully equipped kitchen</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <i class="fas fa-washer text-green-500"></i>
+                                <span>Washer & Dryer</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <i class="fas fa-shower text-green-500"></i>
+                                <span>Hot water</span>
+                            </li>
+                            <li class="flex items-center gap-3 text-gray-700">
+                                <i class="fas fa-shield-alt text-green-500"></i>
+                                <span>24/7 security</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </main>
+    </body>
+
+    </html>
