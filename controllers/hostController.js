@@ -1,5 +1,8 @@
 const Home = require("../models/home");
 const fs = require("fs");
+const path = require("path");
+const rootDir = require("../utils/pathUtil");
+
 exports.getAddHome = (req, res, next) => {
   res.render("host/edit-home", {
     pageTitle: "Add Home to airbnb",
@@ -25,13 +28,14 @@ exports.getHostHomes = (req, res, next) => {
 
 exports.postAddHome = (req, res, next) => {
   const { houseName, price, location, rating, description } = req.body;
-  console.log('added new home details: ',req.body);
+  console.log("added new home details: ", req.body);
   console.log("file details: ", req.file);
-  if(!req.file) {
+  if (!req.file) {
     return res.status(422).send("No Image Provided");
   }
 
-  const photo = req.file.path; // saving the path of uploaded file
+  // const photo = req.file.path; // saving the path of uploaded file
+  const photo = "/uploads/" + req.file.filename;
 
   const home = new Home({
     houseName,
@@ -79,8 +83,7 @@ exports.getEditHome = (req, res, next) => {
 };
 
 exports.postEditHome = (req, res, next) => {
-  const { id, houseName, price, location, rating, description } =
-    req.body;
+  const { id, houseName, price, location, rating, description } = req.body;
   Home.findById(id)
     .then((home) => {
       home.houseName = houseName;
@@ -89,16 +92,17 @@ exports.postEditHome = (req, res, next) => {
       home.rating = rating;
       // home.photo = photo;
       home.description = description;
-      if(req.file){
-        fs.unlink(home.photo, (err) => {
-          if (err) {
-            console.log("error while deleting file", err);
-          } else {
-            console.log("previous file deleted");
-          }
+      if (req.file) {
+        const oldPhotoPath = path.join(rootDir, "public", home.photo);
+
+        fs.unlink(oldPhotoPath, (err) => {
+          if (err) console.log("error while deleting file", err);
+          else console.log("previous file deleted");
         });
-        home.photo = req.file.path;
+
+        home.photo = "/uploads/" + req.file.filename;
       }
+
       home
         .save()
         .then((result) => {

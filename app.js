@@ -39,7 +39,7 @@ const randomString = (length) => {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, path.join(rootDir, 'public/uploads'));
   },
   filename: (req, file, cb) => {
     cb(null, randomString(10) + '-' + file.originalname);
@@ -47,25 +47,20 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  if(['image/png', 'image/jpg', 'image/jpeg'].includes(file.mimetype)){
-    cb(null, true); // accept file
-  } else{
-    cb(null, false); // reject file
+  if (['image/png', 'image/jpg', 'image/jpeg'].includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(null, false);
   }
-}
+};
 
-const multerOptions = {
-  storage, // destination folder for uploaded files
-  fileFilter // filter which files to accept or reject
-}
+const multerOptions = { storage, fileFilter };
 
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(multer(multerOptions).single("photo"));
+
 app.use(express.static(path.join(rootDir, "public")));
-app.use("/uploads",express.static(path.join(rootDir, "uploads"))); // to serve images for store pages
-app.use("/host/uploads",express.static(path.join(rootDir, "uploads"))); // to serve images for host pages
-app.use("/homes/uploads",express.static(path.join(rootDir, "uploads"))); // to serve images for home detail pages
-app.use("/booking/uploads",express.static(path.join(rootDir, "uploads"))); // to serve images for booking pages
+
 
 app.use(session({
   // secret used to sign the session Id cookie and encrypt the session data

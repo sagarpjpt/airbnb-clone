@@ -122,7 +122,7 @@ exports.getHouseRules = [
     // const rulesFileName = `House-Rules-${homeId}.pdf`
     // use it when rule file uploaded by host ---> save uploaded pdf in above naming format using multer
     const rulesFileName = `House-Rules.pdf`;
-    const filePath = path.join(rootDir, "rules", rulesFileName);
+    const filePath = path.join(rootDir, "public", "rules", rulesFileName);
     res.download(filePath, "Rules.pdf");
   },
 ];
