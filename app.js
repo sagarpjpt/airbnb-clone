@@ -27,24 +27,7 @@ const store = new MongoDBStore({
   collection: 'sessions'
 });
 
-const randomString = (length) => {
-  let result = '';
-  const characters = 'abcdefghijklmnopqrstuvwxyz';
-  const charactersLength = characters.length;
-  for ( let i = 0; i < length; i++ ) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, path.join(rootDir, 'public/uploads'));
-  },
-  filename: (req, file, cb) => {
-    cb(null, randomString(10) + '-' + file.originalname);
-  }
-});
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   if (['image/png', 'image/jpg', 'image/jpeg'].includes(file.mimetype)) {
@@ -55,12 +38,12 @@ const fileFilter = (req, file, cb) => {
 };
 
 const multerOptions = { storage, fileFilter };
+const upload = multer(multerOptions);
 
 app.use(express.urlencoded({ extended: true }));
-app.use(multer(multerOptions).single("photo"));
+app.use(upload.single("photo")); // photo is the name of input field
 
 app.use(express.static(path.join(rootDir, "public")));
-
 
 app.use(session({
   // secret used to sign the session Id cookie and encrypt the session data

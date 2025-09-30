@@ -1,3 +1,4 @@
+const cloudinary = require("../utils/cloudinary");
 const Home = require("../models/home");
 const fs = require("fs");
 const path = require("path");
@@ -26,7 +27,7 @@ exports.getHostHomes = (req, res, next) => {
   });
 };
 
-exports.postAddHome = (req, res, next) => {
+exports.postAddHome = async (req, res, next) => {
   const { houseName, price, location, rating, description } = req.body;
   console.log("added new home details: ", req.body);
   console.log("file details: ", req.file);
@@ -34,8 +35,18 @@ exports.postAddHome = (req, res, next) => {
     return res.status(422).send("No Image Provided");
   }
 
-  // const photo = req.file.path; // saving the path of uploaded file
-  const photo = "/uploads/" + req.file.filename;
+  // Convert buffer to base64 string
+  const fileBase64 = req.file.buffer.toString("base64");
+  const dataURI = `data:${req.file.mimetype};base64,${fileBase64}`;
+
+  // Upload directly to Cloudinary (no temp file)
+  const result = await cloudinary.uploader.upload(dataURI, {
+    folder: "airbnb-clone",
+  });
+
+  const photo = result.secure_url;
+  console.log("Cloudinary upload result:", result);
+  console.log("Photo URL:", photo);
 
   const home = new Home({
     houseName,
@@ -85,22 +96,35 @@ exports.getEditHome = (req, res, next) => {
 exports.postEditHome = (req, res, next) => {
   const { id, houseName, price, location, rating, description } = req.body;
   Home.findById(id)
-    .then((home) => {
+    .then(async (home) => {
       home.houseName = houseName;
       home.price = price;
       home.location = location;
       home.rating = rating;
-      // home.photo = photo;
       home.description = description;
       if (req.file) {
-        const oldPhotoPath = path.join(rootDir, "public", home.photo);
+        // first delete the previous photo from cloudinary
+        function getPublicIdFromUrl(url) {
+          const parts = url.split("/upload/")[1]; // "v1759258745/airbnb-clone/pkhhhf1issoglbh3fewc.webp"
+          const pathParts = parts.split("/").slice(1); // ["airbnb-clone", "pkhhh..."]
+          const filenameWithExt = pathParts.join("/"); // "airbnb-clone/pkhhhf1issoglbh3fewc.webp"
+          return filenameWithExt.replace(/\.[^/.]+$/, ""); // remove extension -> "airbnb-clone/pkhhhf1issoglbh3fewc"
+        }
 
-        fs.unlink(oldPhotoPath, (err) => {
-          if (err) console.log("error while deleting file", err);
-          else console.log("previous file deleted");
+        const publicId = getPublicIdFromUrl(home.photo);
+        await cloudinary.uploader.destroy(publicId);
+
+        // Convert buffer to base64 string
+        const fileBase64 = req.file.buffer.toString("base64");
+        const dataURI = `data:${req.file.mimetype};base64,${fileBase64}`;
+
+        // Upload directly to Cloudinary (no temp file)
+        const result = await cloudinary.uploader.upload(dataURI, {
+          folder: "airbnb-clone",
         });
 
-        home.photo = "/uploads/" + req.file.filename;
+        const photo = result.secure_url;
+        home.photo = photo;
       }
 
       home
@@ -121,6 +145,24 @@ exports.postEditHome = (req, res, next) => {
 exports.postDeleteHome = (req, res, next) => {
   const homeId = req.params.homeId;
   console.log("came to delete :", homeId);
+  // first delete image from cloudinary then delete home from mongoDB
+  Home.findById(homeId)
+    .then(async (home) => {
+      if (!home) {
+        return res.send("home not found");
+      }
+      function getPublicIdFromUrl(url) {
+        const parts = url.split("/upload/")[1]; // "v1759258745/airbnb-clone/pkhhhf1issoglbh3fewc.webp"
+        const pathParts = parts.split("/").slice(1); // ["airbnb-clone", "pkhhh..."]
+        const filenameWithExt = pathParts.join("/"); // "airbnb-clone/pkhhhf1issoglbh3fewc.webp"
+        return filenameWithExt.replace(/\.[^/.]+$/, ""); // remove extension -> "airbnb-clone/pkhhhf1issoglbh3fewc"
+      }
+      const publicId = getPublicIdFromUrl(home.photo);
+      await cloudinary.uploader.destroy(publicId);
+    })
+    .catch((err) => {
+      console.log("error while deleting file", err);
+    });
   Home.findByIdAndDelete(homeId)
     .then(() => {
       res.redirect("/host/host-home-list");
